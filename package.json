@@ -1,0 +1,35 @@
+{
+  "name": "dms-vuelos",
+  "version": "1.0.0",
+  "description": "probando",
+  "main": ".prettierrc.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "mvn test -f ./vuelo",
+    "prepare": "husky install"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alvarosiles11/dms-vuelos.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/alvarosiles11/dms-vuelos/issues"
+  },
+  "homepage": "https://github.com/alvarosiles11/dms-vuelos#readme",
+  "devDependencies": {
+    "husky": "^8.0.0",
+    "lint-staged": "^13.0.3",
+    "prettier": "2.7.1",
+    "prettier-plugin-java": "^1.6.2"
+  },
+  "lint-staged": {
+    "*.{html,css,scss,js,ts,tsx,json,md,yaml,java}": [
+      "npx prettier --write ."
+    ]
+  }
+}
