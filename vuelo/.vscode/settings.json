@@ -1,0 +1,20 @@
+{
+  // "java.configuration.updateBuildConfiguration": "automatic",
+  // "maven.view": "flat",
+  // "java.format.settings.url": "eclipse-formatter.xml",
+	// "java.saveActions.organizeImports": true,
+
+	// INFO
+
+
+
+	//🍕 organizador
+	"editor.codeActionsOnSave": {
+		"source.organizeImports": true
+	},
+	// 📒 formateador
+	"editor.formatOnSave": true,
+	"java.dependency.packagePresentation": "flat",
+	"java.dependency.syncWithFolderExplorer": false,
+
+  }
