@@ -58,7 +58,8 @@ public class CrearVueloHandler
 		// otra");
 
 		// ✅ verifico aeropuerto el origen y destino
-		if (request.data.origen == request.data.destino)
+		if (request.data.origen.equals(request.data.destino))
+			// if (request.data.origen == request.data.destino)
 			throw new HttpException(HttpStatus.BAD_REQUEST, "son iguales origen y destino, ingresar otro ");
 
 		// ✅ verifico la fecha de salida del aeronave si existe en la BD
