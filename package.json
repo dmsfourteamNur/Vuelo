@@ -1,5 +1,5 @@
 {
-  "name": "dms-vuelos",
+  "name": "vuelo",
   "version": "1.0.0",
   "description": "probando",
   "main": ".prettierrc.js",
@@ -7,20 +7,20 @@
     "doc": "docs"
   },
   "scripts": {
-    "test": "mvn test -f ./vuelo",
+		"test": "mvn --batch-mode -Dmaven.test.failure.ignore=true test -f ./vuelo",
     "prepare": "husky install"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/alvarosiles11/dms-vuelos.git"
+    "url": "git+https://github.com/dmsfourteamNur/vuelo.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/alvarosiles11/dms-vuelos/issues"
+    "url": "https://github.com/dmsfourteamNur/vuelo/issues"
   },
-  "homepage": "https://github.com/alvarosiles11/dms-vuelos#readme",
+  "homepage": "https://github.com/dmsfourteamNur/vuelo#readme",
   "devDependencies": {
     "husky": "^8.0.0",
     "lint-staged": "^13.0.3",
