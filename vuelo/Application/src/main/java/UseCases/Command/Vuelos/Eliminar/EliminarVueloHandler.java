@@ -28,7 +28,7 @@ public class EliminarVueloHandler
 
 	@Override
 	public UUID handle(EliminarVueloCommand request) throws Exception {
-		Vuelo vuelo = iVueloRepository.FindByKey(request.vueloDto.getKey());
+		Vuelo vuelo = iVueloRepository.FindByKey(request.vueloDto.key);
 		if (vuelo == null) {
 			throw new HttpException(HttpStatus.BAD_REQUEST, "Vuelo no encontrada");
 		}

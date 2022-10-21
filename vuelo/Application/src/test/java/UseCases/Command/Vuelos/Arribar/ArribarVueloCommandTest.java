@@ -1,4 +1,4 @@
-package UseCases.Command.Vuelos.Crear;
+package UseCases.Command.Vuelos.Arribar;
 
 import java.util.UUID;
 
@@ -6,15 +6,16 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import Dto.VueloDto;
+import UseCases.Command.Vuelos.Crear.CrearVueloCommand;
 
-public class CrearVueloCommand_Test {
-
+public class ArribarVueloCommandTest {
 	@Test
 	public void dataValid() {
 		UUID key = UUID.randomUUID();
 		VueloDto vueloDto = new VueloDto();
 		vueloDto.setKey(key);
-		CrearVueloCommand command = new CrearVueloCommand(vueloDto);
+		ArribarVueloCommand command = new ArribarVueloCommand(vueloDto.key);
+		Assert.assertEquals(key, command.vueloDto.getKey());
 	}
 
 	@Test
