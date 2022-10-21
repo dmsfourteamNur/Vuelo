@@ -28,4 +28,5 @@ jobs:
               StrictHostKeyChecking no
           END
       - name: Test ssh write
-        run: ssh staging 'cd vuelo && chmod u+r+x deploy.sh  && chmod u+r+x ./vuelo/compile.sh && sudo ./deploy.sh'
+        # run: ssh staging 'cd vuelo && chmod u+r+x deploy.sh  && chmod u+r+x ./vuelo/compile.sh && sudo ./deploy.sh'
+        run: ssh staging 'cd vuelo && sudo bash deploy.sh'
