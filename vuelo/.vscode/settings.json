@@ -16,5 +16,6 @@
 	"editor.formatOnSave": true,
 	"java.dependency.packagePresentation": "flat",
 	"java.dependency.syncWithFolderExplorer": false,
+	"java.configuration.updateBuildConfiguration": "interactive",
 
   }

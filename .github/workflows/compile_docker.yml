@@ -1,11 +1,32 @@
-name: Java CI with Maven
-
+name: Compile docker
 on:
   push:
     branches: ['main']
 
 jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up JDK 11
+        uses: actions/setup-java@v3
+        with:
+          java-version: '11'
+          distribution: 'adopt'
+      - name: Build with Maven
+        run: cd vuelo && mvn --batch-mode --update-snapshots install
+      - name: Test with Maven
+        run: cd vuelo && mvn --batch-mode -Dmaven.test.failure.ignore=true test
+      - name: Report
+        uses: dorny/test-reporter@v1
+        if: always()
+        with:
+          name: Maven Tests
+          path: '**/target/surefire-reports/*.xml'
+          reporter: java-junit
+          fail-on-error: true
   ssh_deploy:
+    needs: test
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -28,5 +49,4 @@ jobs:
               StrictHostKeyChecking no
           END
       - name: Test ssh write
-        # run: ssh staging 'cd vuelo && chmod u+r+x deploy.sh  && chmod u+r+x ./vuelo/compile.sh && sudo ./deploy.sh'
         run: ssh staging 'cd vuelo && sudo bash deploy.sh'
