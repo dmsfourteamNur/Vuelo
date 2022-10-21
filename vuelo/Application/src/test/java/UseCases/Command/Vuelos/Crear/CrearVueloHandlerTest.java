@@ -1,7 +1,7 @@
 package UseCases.Command.Vuelos.Crear;
 
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyList;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
@@ -9,16 +9,20 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
+import org.junit.Assert;
 import org.junit.Before;
-import org.junit.Test;
 import org.mockito.Mockito;
 
 import Dto.AsientoDto;
 import Dto.TripulanteDto;
 import Dto.VueloDto;
 import Factories.IVueloFactory;
+import Fourteam.http.HttpStatus;
+import Fourteam.http.Exception.HttpException;
 import Model.Aeronaves.Aeronave;
+import Model.Aeronaves.Asiento;
 import Model.Tripulacion.Tripulacion;
+import Model.Tripulacion.Tripulante;
 import Model.Vuelos.Vuelo;
 import Repositories.IAeronaveRepository;
 import Repositories.ITripulacionRepository;
@@ -38,8 +42,11 @@ public class CrearVueloHandlerTest {
 	public void setUp() {
 	}
 
-	//@Test
+	// @Test
 	public void HandleCorrectly() throws Exception {
+
+		CrearVueloHandler handler = new CrearVueloHandler(iVueloFactory, iVueloRepository, iAeronaveRepository,
+				iTripulacionRepository, iUnitOfWork);
 
 		UUID key = UUID.randomUUID();
 		String nroVuelo = "scz-cba-513184";
@@ -54,22 +61,31 @@ public class CrearVueloHandlerTest {
 		List<AsientoDto> asientos = new ArrayList<>();
 		List<TripulanteDto> tripulantes = new ArrayList<>();
 
-		String matricula = "ASD";
-		String keyModelo = UUID.randomUUID().toString();
+		Aeronave aeronave = iAeronaveRepository.FindByKey(keyAeronave);
+		when(iAeronaveRepository.FindByKey(keyAeronave)).thenReturn(aeronave);
+		if (aeronave != null) {
+			throw new HttpException(HttpStatus.BAD_REQUEST, "Ya existe una aeronave con esta matricula.");
+		}
 
-		Vuelo vuelo = new Vuelo(nroVuelo, keyAeronave, origen, destino, fechaSalida, fechaArribe, keyTripulacion,
-				observacion, estado, anyList(), anyList());
-		when(iVueloFactory.Create(nroVuelo, keyAeronave, origen, destino, fechaSalida, fechaArribe, keyTripulacion,
-				observacion, estado, anyList(), anyList()));
+		if (origen.equals(destino))
+			throw new HttpException(HttpStatus.BAD_REQUEST, "son iguales origen y destino, ingresar otro ");
+
+		// Vuelo fecha = iVueloRepository.findFechaSalida(any());
+		// if (fecha != null)
+		// throw new HttpException(HttpStatus.BAD_REQUEST, "la fecha de salida del vuelo
+		// ya existe.");
 
 		Tripulacion tripulacion = iTripulacionRepository.FindByKey(keyTripulacion);
 		when(iTripulacionRepository.FindByKey(any())).thenReturn(tripulacion);
+		if (tripulacion != null) {
+			throw new HttpException(HttpStatus.BAD_REQUEST, "Ya existe la tripulacion.");
+		}
 
-		Aeronave aeronave = iAeronaveRepository.FindByKey(keyAeronave);
-		when(iAeronaveRepository.FindByKey(any())).thenReturn(aeronave);
+		Vuelo vuelo = new Vuelo(nroVuelo, keyAeronave, origen, destino, fechaSalida, fechaArribe, keyTripulacion,
+				observacion, estado, getListAsiento(), getListdaTripulantes());
 
-		CrearVueloHandler handler = new CrearVueloHandler(iVueloFactory, iVueloRepository, iAeronaveRepository,
-				iTripulacionRepository, iUnitOfWork);
+		when(iVueloFactory.Create(nroVuelo, keyAeronave, origen, destino, fechaSalida, fechaArribe, keyTripulacion,
+				observacion, estado, getListAsiento(), getListdaTripulantes())).thenReturn(vuelo);
 
 		VueloDto vueloDto = new VueloDto();
 
@@ -86,5 +102,28 @@ public class CrearVueloHandlerTest {
 		vueloDto.setObservacion(observacion);
 		vueloDto.setEstado(estado);
 
+		CrearVueloCommand command = new CrearVueloCommand(vueloDto);
+		try {
+			Vuelo resp = handler.handle(command);
+
+			verify(iUnitOfWork).commit();
+			Assert.assertNotNull(resp);
+
+			// if (resp != null) {
+			// throw new HttpException(HttpStatus.BAD_REQUEST, "Ya existe la tripulacion.");
+			// }
+
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+
+	}
+
+	public List<Asiento> getListAsiento() {
+		return new ArrayList<>();
+	}
+
+	public List<Tripulante> getListdaTripulantes() {
+		return new ArrayList<>();
 	}
 }

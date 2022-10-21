@@ -29,12 +29,6 @@ public class Vuelo extends AggregateRoot<UUID> {
 	public Vuelo(String nroVuelo, UUID keyAeronave, String origen, String destino, Date fechaSalida, Date fechaArribe,
 			UUID keyTripulacion, String observacion, String estado, List<Asiento> asientos,
 			List<Tripulante> tripulantes) {
-		// try {
-		// this.nroVuelo = new NumeroVuelo(nroVuelo).toString();
-		// } catch (BussinessRuleValidateExeption e) {
-		// System.out.println("Error en el NumeroVuelo Vuelo");
-		// return;
-		// }
 		this.key = UUID.randomUUID();
 		this.nroVuelo = nroVuelo;
 		this.keyAeronave = keyAeronave;
