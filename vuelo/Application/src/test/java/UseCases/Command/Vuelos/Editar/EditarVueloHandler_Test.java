@@ -9,7 +9,7 @@ import Repositories.ITripulacionRepository;
 import Repositories.IUnitOfWork;
 import Repositories.IVueloRepository;
 
-public class EditarVueloHandlerTest {
+public class EditarVueloHandler_Test {
 	IVueloFactory iVueloFactory = Mockito.mock(IVueloFactory.class);
 	IVueloRepository iVueloRepository = Mockito.mock(IVueloRepository.class);
 	IUnitOfWork iUnitOfWork = Mockito.mock(IUnitOfWork.class);

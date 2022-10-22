@@ -1,4 +1,4 @@
-package UseCases.Command.Vuelos.Crear;
+package UseCases.Command.Vuelos.Arribar;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
@@ -8,15 +8,15 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 
 import Dto.VueloDto;
 import Factories.IVueloFactory;
-import Model.Aeronaves.Aeronave;
+import Fourteam.http.Exception.HttpException;
 import Model.Aeronaves.Asiento;
-import Model.Tripulacion.Tripulacion;
 import Model.Tripulacion.Tripulante;
 import Model.Vuelos.Vuelo;
 import Repositories.IAeronaveRepository;
@@ -24,8 +24,7 @@ import Repositories.ITripulacionRepository;
 import Repositories.IUnitOfWork;
 import Repositories.IVueloRepository;
 
-public class CrearVueloHandlerTest {
-
+public class ArribarVueloHandlerTest {
 	IVueloFactory iVueloFactory = Mockito.mock(IVueloFactory.class);
 	IVueloRepository iVueloRepository = Mockito.mock(IVueloRepository.class);
 	IUnitOfWork iUnitOfWork = Mockito.mock(IUnitOfWork.class);
@@ -38,7 +37,6 @@ public class CrearVueloHandlerTest {
 
 	@Test
 	public void HandleCorrectly() throws Exception {
-
 		UUID key = UUID.randomUUID();
 		String nroVuelo = "scz-cba-513184";
 		UUID keyAeronave = UUID.randomUUID();
@@ -51,51 +49,56 @@ public class CrearVueloHandlerTest {
 		String estado = "1";
 		List<Asiento> asientos = new ArrayList<>();
 		List<Tripulante> tripulantes = new ArrayList<>();
-
-		Aeronave aeronave = new Aeronave(keyAeronave, observacion, estado);
-		when(iAeronaveRepository.FindByKey(any(UUID.class))).thenReturn(aeronave);
-
-		// when(aeronave.estado.equals("2")).thenAnswer(null);
-
-		// if (aeronave.estado.equals("2"))
-		// throw new HttpException(HttpStatus.BAD_REQUEST, "aeronave esta en vuelo, usar
-		// otra");
-
-		// if (origen.equals(destino))
-		// throw new HttpException(HttpStatus.BAD_REQUEST, "son iguales origen y
-		// destino, ingresar otro ");
-
-		Tripulacion tripulacion = new Tripulacion(keyTripulacion, observacion, estado);
-		when(iTripulacionRepository.FindByKey(any(UUID.class))).thenReturn(tripulacion);
-
 		Vuelo vuelo = new Vuelo(nroVuelo, keyAeronave, origen, destino, fechaSalida, fechaArribe, keyTripulacion,
 				observacion, estado, asientos, tripulantes);
+		vuelo.key = key;
+		when(iVueloRepository.FindByKey(any(UUID.class))).thenReturn(vuelo);
+		// when(iVueloRepository.Delete(any(Vuelo.class))).thenReturn(vuelo);
 
-		when(iVueloFactory.Create(nroVuelo, keyAeronave, origen, destino, fechaSalida, fechaArribe, keyTripulacion,
-				observacion, estado, asientos, tripulantes)).thenReturn(vuelo);
-
-		when(iVueloRepository.findFechaSalida(fechaSalida)).thenReturn(vuelo);
-
-		CrearVueloHandler handler = new CrearVueloHandler(iVueloFactory, iVueloRepository, iAeronaveRepository,
+		ArribarVueloHandler handler = new ArribarVueloHandler(iVueloFactory, iVueloRepository, iAeronaveRepository,
 				iTripulacionRepository, iUnitOfWork);
 
 		VueloDto vueloDto = new VueloDto();
+
+		vueloDto.key = key;
+		vueloDto.nroVuelo = nroVuelo;
+		vueloDto.keyAeronave = keyAeronave;
+		vueloDto.origen = origen;
+		vueloDto.destino = destino;
+		vueloDto.fechaSalida = fechaSalida;
+		vueloDto.fechaArribe = fechaArribe;
+		vueloDto.keyTripulacion = keyAeronave;
+		vueloDto.observacion = observacion;
+		vueloDto.estado = estado;
+		ArribarVueloCommand command = new ArribarVueloCommand(vueloDto.key);
+		// try {
+		// UUID resp = handler.handle(command);
+		// } catch (HttpException e) {
+		// Assert.assertEquals(400, e.getCode());
+		// }
+	}
+
+	@Test
+  public void HandleFailed() throws Exception {
+    when(iVueloRepository.FindByKey(any())).thenReturn(null);
+		ArribarVueloHandler handler = new ArribarVueloHandler(iVueloFactory, iVueloRepository, iAeronaveRepository, iTripulacionRepository, iUnitOfWork);
+		VueloDto vueloDto = new VueloDto();
 		vueloDto.key = UUID.randomUUID();
 		vueloDto.nroVuelo = "2";
-		vueloDto.keyAeronave = UUID.randomUUID();
+		vueloDto.keyAeronave =UUID.randomUUID();
 		vueloDto.origen = "scz";
 		vueloDto.destino = "cbba";
 		vueloDto.fechaSalida = new Date();
 		vueloDto.fechaArribe = new Date();
-		vueloDto.keyTripulacion = UUID.randomUUID();
+		vueloDto.keyTripulacion =UUID.randomUUID();
 		vueloDto.observacion = "En horario";
 		vueloDto.estado = "1";
-		vueloDto.asientos = new ArrayList<>();
-		vueloDto.tripulantes = new ArrayList<>();
-		CrearVueloCommand command = new CrearVueloCommand(vueloDto);
-		// Vuelo resp = handler.handle(command);
-		// verify(iUnitOfWork).commit();
-		// Assert.assertNotNull(resp);
-	}
+		ArribarVueloCommand command = new ArribarVueloCommand(vueloDto.key);
+     try {
+      UUID resp = handler.handle(command);
+    } catch (HttpException e) {
+      Assert.assertEquals(400, e.getCode());
+    }
+  }
 
 }

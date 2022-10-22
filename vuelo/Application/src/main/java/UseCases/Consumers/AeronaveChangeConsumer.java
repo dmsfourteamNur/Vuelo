@@ -27,7 +27,7 @@ public class AeronaveChangeConsumer extends IConsumer<IntegrationEvents.Aeronave
 			Aeronave aeronave = iAeronaveRepository.FindByKey(object.Key);
 			if (aeronave == null)
 				isNuevo = true;
-			aeronave = iAeronaveFactory.Create(object.Key, object.matricula, "0");
+			aeronave = iAeronaveFactory.Create(object.Key, object.matricula, "1");
 
 			for (var item : object.getAsientos()) {
 				aeronave.agregarAsiento(item.key, item.keyAeronave, item.numero, item.clase, 200.00, 0);

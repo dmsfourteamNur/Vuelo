@@ -51,11 +51,10 @@ public class CrearVueloHandler
 		// ✅ verifico aeronave
 		Aeronave aeronave = iAeronaveRepository.FindByKey(request.data.keyAeronave);
 		if (aeronave == null)
-			throw new HttpException(HttpStatus.BAD_REQUEST, "no existe la eronave");
+			throw new HttpException(HttpStatus.BAD_REQUEST, "no existe la aeronave");
 		// ⚠️ verifico si la tripulacion, ya esta en vuelo
-		// if (aeronave.estado.equals("2"))
-		// throw new HttpException(HttpStatus.BAD_REQUEST, "aeronave esta en vuelo, usar
-		// otra");
+		if (aeronave.estado.equals("2"))
+			throw new HttpException(HttpStatus.BAD_REQUEST, "aeronave esta en vuelo, usar otra");
 
 		// ✅ verifico aeropuerto el origen y destino
 		if (request.data.origen.equals(request.data.destino))
@@ -73,8 +72,8 @@ public class CrearVueloHandler
 
 		// ✅ verifico tripulacion si existe en la BD
 		Tripulacion tripulacion = iTripulacionRepository.FindByKey(request.data.keyTripulacion);
-		// if (tripulacion == null)
-		// throw new HttpException(HttpStatus.BAD_REQUEST, "no existe la tripulacion");
+		if (tripulacion == null)
+			throw new HttpException(HttpStatus.BAD_REQUEST, "no existe la tripulacion");
 		// ⚠️ verifico si la tripulacion, ya esta en vuelo
 		// if (tripulacion.estado.equals("2"))
 		// throw new HttpException(HttpStatus.BAD_REQUEST, "la tripulacion esta en
