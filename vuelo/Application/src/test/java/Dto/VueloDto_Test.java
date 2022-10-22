@@ -55,10 +55,7 @@ public class VueloDto_Test {
 		vueloDto.setEstado(estado);
 
 		Vuelo vuelo = new Vuelo();
-		// VueloDto vueloTest1 = new VueloDto(vuelo);
-		// VueloDto vueloTest2 = new VueloDto(anyString(), any(), anyString(),
-		// anyString(), any(), any(), any(),
-		// anyString(), anyString(), anyList(), anyList());
+
 		Assert.assertEquals(key, vueloDto.getKey());
 		Assert.assertEquals(nroVuelo, vueloDto.getNroVuelo());
 		Assert.assertEquals(keyAeronave, vueloDto.getKeyAeronave());

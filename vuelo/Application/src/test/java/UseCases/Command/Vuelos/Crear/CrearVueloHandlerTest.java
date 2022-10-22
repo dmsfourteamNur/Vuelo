@@ -1,7 +1,6 @@
 package UseCases.Command.Vuelos.Crear;
 
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
@@ -9,16 +8,12 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
-import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Test;
 import org.mockito.Mockito;
 
-import Dto.AsientoDto;
-import Dto.TripulanteDto;
 import Dto.VueloDto;
 import Factories.IVueloFactory;
-import Fourteam.http.HttpStatus;
-import Fourteam.http.Exception.HttpException;
 import Model.Aeronaves.Aeronave;
 import Model.Aeronaves.Asiento;
 import Model.Tripulacion.Tripulacion;
@@ -34,7 +29,6 @@ public class CrearVueloHandlerTest {
 	IVueloFactory iVueloFactory = Mockito.mock(IVueloFactory.class);
 	IVueloRepository iVueloRepository = Mockito.mock(IVueloRepository.class);
 	IUnitOfWork iUnitOfWork = Mockito.mock(IUnitOfWork.class);
-
 	IAeronaveRepository iAeronaveRepository = Mockito.mock(IAeronaveRepository.class);
 	ITripulacionRepository iTripulacionRepository = Mockito.mock(ITripulacionRepository.class);
 
@@ -42,11 +36,8 @@ public class CrearVueloHandlerTest {
 	public void setUp() {
 	}
 
-	// @Test
+	@Test
 	public void HandleCorrectly() throws Exception {
-
-		CrearVueloHandler handler = new CrearVueloHandler(iVueloFactory, iVueloRepository, iAeronaveRepository,
-				iTripulacionRepository, iUnitOfWork);
 
 		UUID key = UUID.randomUUID();
 		String nroVuelo = "scz-cba-513184";
@@ -58,72 +49,53 @@ public class CrearVueloHandlerTest {
 		UUID keyTripulacion = UUID.randomUUID();
 		String observacion = "En horario";
 		String estado = "1";
-		List<AsientoDto> asientos = new ArrayList<>();
-		List<TripulanteDto> tripulantes = new ArrayList<>();
+		List<Asiento> asientos = new ArrayList<>();
+		List<Tripulante> tripulantes = new ArrayList<>();
 
-		Aeronave aeronave = iAeronaveRepository.FindByKey(keyAeronave);
-		when(iAeronaveRepository.FindByKey(keyAeronave)).thenReturn(aeronave);
-		if (aeronave != null) {
-			throw new HttpException(HttpStatus.BAD_REQUEST, "Ya existe una aeronave con esta matricula.");
-		}
+		Aeronave aeronave = new Aeronave(keyAeronave, observacion, estado);
+		when(iAeronaveRepository.FindByKey(any(UUID.class))).thenReturn(aeronave);
 
-		if (origen.equals(destino))
-			throw new HttpException(HttpStatus.BAD_REQUEST, "son iguales origen y destino, ingresar otro ");
+		// when(aeronave.estado.equals("2")).thenAnswer(null);
 
-		// Vuelo fecha = iVueloRepository.findFechaSalida(any());
-		// if (fecha != null)
-		// throw new HttpException(HttpStatus.BAD_REQUEST, "la fecha de salida del vuelo
-		// ya existe.");
+		// if (aeronave.estado.equals("2"))
+		// throw new HttpException(HttpStatus.BAD_REQUEST, "aeronave esta en vuelo, usar
+		// otra");
 
-		Tripulacion tripulacion = iTripulacionRepository.FindByKey(keyTripulacion);
-		when(iTripulacionRepository.FindByKey(any())).thenReturn(tripulacion);
-		if (tripulacion != null) {
-			throw new HttpException(HttpStatus.BAD_REQUEST, "Ya existe la tripulacion.");
-		}
+		// if (origen.equals(destino))
+		// throw new HttpException(HttpStatus.BAD_REQUEST, "son iguales origen y
+		// destino, ingresar otro ");
+
+		Tripulacion tripulacion = new Tripulacion(keyTripulacion, observacion, estado);
+		when(iTripulacionRepository.FindByKey(any(UUID.class))).thenReturn(tripulacion);
 
 		Vuelo vuelo = new Vuelo(nroVuelo, keyAeronave, origen, destino, fechaSalida, fechaArribe, keyTripulacion,
-				observacion, estado, getListAsiento(), getListdaTripulantes());
+				observacion, estado, asientos, tripulantes);
 
 		when(iVueloFactory.Create(nroVuelo, keyAeronave, origen, destino, fechaSalida, fechaArribe, keyTripulacion,
-				observacion, estado, getListAsiento(), getListdaTripulantes())).thenReturn(vuelo);
+				observacion, estado, asientos, tripulantes)).thenReturn(vuelo);
+
+		when(iVueloRepository.findFechaSalida(fechaSalida)).thenReturn(vuelo);
+
+		CrearVueloHandler handler = new CrearVueloHandler(iVueloFactory, iVueloRepository, iAeronaveRepository,
+				iTripulacionRepository, iUnitOfWork);
 
 		VueloDto vueloDto = new VueloDto();
-
-		vueloDto.setKey(key);
-		vueloDto.setNroVuelo(nroVuelo);
-		vueloDto.setKeyAeronave(keyAeronave);
-		vueloDto.setAsientos(asientos);
-		vueloDto.setOrigen(origen);
-		vueloDto.setDestino(destino);
-		vueloDto.setFechaSalida(fechaSalida);
-		vueloDto.setFechaArribe(fechaArribe);
-		vueloDto.setKeyTripulacion(keyTripulacion);
-		vueloDto.setTripulantes(tripulantes);
-		vueloDto.setObservacion(observacion);
-		vueloDto.setEstado(estado);
-
+		vueloDto.key = UUID.randomUUID();
+		vueloDto.nroVuelo = "2";
+		vueloDto.keyAeronave = UUID.randomUUID();
+		vueloDto.origen = "scz";
+		vueloDto.destino = "cbba";
+		vueloDto.fechaSalida = new Date();
+		vueloDto.fechaArribe = new Date();
+		vueloDto.keyTripulacion = UUID.randomUUID();
+		vueloDto.observacion = "En horario";
+		vueloDto.estado = "1";
+		vueloDto.asientos = new ArrayList<>();
+		vueloDto.tripulantes = new ArrayList<>();
 		CrearVueloCommand command = new CrearVueloCommand(vueloDto);
-		try {
-			Vuelo resp = handler.handle(command);
-
-			verify(iUnitOfWork).commit();
-			Assert.assertNotNull(resp);
-
-			// if (resp != null) {
-			// throw new HttpException(HttpStatus.BAD_REQUEST, "Ya existe la tripulacion.");
-			// }
-
-		} catch (Exception e) {
-			// TODO: handle exception
-		}
-
+		// Vuelo resp = handler.handle(command);
+		// verify(iUnitOfWork).commit();
+		// Assert.assertNotNull(resp);
 	}
 
-	public List<Asiento> getListAsiento() {
-		return new ArrayList<>();
-	}
-
-	public List<Tripulante> getListdaTripulantes() {
-		return new ArrayList<>();
-	}
 }

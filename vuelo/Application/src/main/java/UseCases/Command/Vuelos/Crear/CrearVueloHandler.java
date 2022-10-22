@@ -53,9 +53,8 @@ public class CrearVueloHandler
 		if (aeronave == null)
 			throw new HttpException(HttpStatus.BAD_REQUEST, "no existe la aeronave");
 		// ⚠️ verifico si la tripulacion, ya esta en vuelo
-		// if (aeronave.estado.equals("2"))
-		// throw new HttpException(HttpStatus.BAD_REQUEST, "aeronave esta en vuelo, usar
-		// otra");
+		if (aeronave.estado.equals("2"))
+			throw new HttpException(HttpStatus.BAD_REQUEST, "aeronave esta en vuelo, usar otra");
 
 		// ✅ verifico aeropuerto el origen y destino
 		if (request.data.origen.equals(request.data.destino))

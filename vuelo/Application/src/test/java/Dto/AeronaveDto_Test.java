@@ -17,7 +17,6 @@ public class AeronaveDto_Test {
 		List<AsientoDto> listdaAsientos = getListdaAsientos();
 		String estado = "0";
 		AeronaveDto aeronaveDto = new AeronaveDto();
-
 		Assert.assertEquals(null, aeronaveDto.getKeyAeronave());
 		Assert.assertNull(aeronaveDto.getMatricula());
 		Assert.assertEquals(0, listdaAsientos.size());

@@ -15,6 +15,7 @@ import org.mockito.Mockito;
 
 import Dto.VueloDto;
 import Factories.IVueloFactory;
+import Fourteam.http.Exception.HttpException;
 import Model.Aeronaves.Asiento;
 import Model.Tripulacion.Tripulante;
 import Model.Vuelos.Vuelo;
@@ -55,18 +56,7 @@ public class EliminarVueloHandler_Test {
 				iVueloRepository, iUnitOfWork);
 
 		VueloDto vueloDto = new VueloDto();
-		Assert.assertEquals(null, vueloDto.getKey());
-		Assert.assertNull(null, vueloDto.getNroVuelo());
-		Assert.assertNull(null, vueloDto.getKeyAeronave());
-		Assert.assertNull(null, vueloDto.getOrigen());
-		Assert.assertNull(null, vueloDto.getDestino());
-		Assert.assertNull(null, vueloDto.getFechaSalida());
-		Assert.assertNull(null, vueloDto.getFechaArribe());
-		Assert.assertNull(null, vueloDto.getKeyTripulacion());
-		// Assert.assertEquals(0, asientos.size());
-		// Assert.assertEquals(0, tripulantes.size());
-		Assert.assertNull(null, vueloDto.getObservacion());
-		Assert.assertNull(null, vueloDto.getEstado());
+
 		vueloDto.key = key;
 		vueloDto.nroVuelo = nroVuelo;
 		vueloDto.keyAeronave = keyAeronave;
@@ -77,67 +67,32 @@ public class EliminarVueloHandler_Test {
 		vueloDto.keyTripulacion = keyAeronave;
 		vueloDto.observacion = observacion;
 		vueloDto.estado = estado;
-		vueloDto.setNroVuelo(nroVuelo);
-		vueloDto.setKeyAeronave(keyAeronave);
-		vueloDto.setOrigen(origen);
-		vueloDto.setDestino(destino);
-		vueloDto.setFechaSalida(fechaSalida);
-		vueloDto.setFechaArribe(fechaArribe);
-		vueloDto.setKeyTripulacion(keyTripulacion);
-		vueloDto.setObservacion(observacion);
-		vueloDto.setEstado(estado);
-
 		EliminarVueloCommand command = new EliminarVueloCommand(vueloDto.key);
 		UUID resp = handler.handle(command);
 		Assert.assertEquals(vuelo.key, resp);
 	}
 
-	// // @Test
-	// public void HandleFailed() throws Exception {
-	// when(iVueloRepository.FindByKey(any())).thenReturn(null);
-	// EliminarVueloHandler handler = new EliminarVueloHandler(iVueloFactory,
-	// iVueloRepository, iUnitOfWork);
+	@Test
+  public void HandleFailed() throws Exception {
+    when(iVueloRepository.FindByKey(any())).thenReturn(null);
+		EliminarVueloHandler handler = new EliminarVueloHandler(iVueloFactory,iVueloRepository, iUnitOfWork);
+		VueloDto vueloDto = new VueloDto();
+		vueloDto.key = UUID.randomUUID();
+		vueloDto.nroVuelo = "2";
+		vueloDto.keyAeronave =UUID.randomUUID();
+		vueloDto.origen = "scz";
+		vueloDto.destino = "cbba";
+		vueloDto.fechaSalida = new Date();
+		vueloDto.fechaArribe = new Date();
+		vueloDto.keyTripulacion =UUID.randomUUID();
+		vueloDto.observacion = "En horario";
+		vueloDto.estado = "1";
+		EliminarVueloCommand command = new EliminarVueloCommand(vueloDto.key);
+     try {
+      UUID resp = handler.handle(command);
+    } catch (HttpException e) {
+      Assert.assertEquals(400, e.getCode());
+    }
+  }
 
-	// VueloDto vueloDto = new VueloDto();
-	// UUID key = UUID.randomUUID();
-	// String nroVuelo = "scz-cba-513184";
-	// UUID keyAeronave = UUID.randomUUID();
-	// String origen = "Scz-ViruViru";
-	// String destino = "CBA-CBA";
-	// Date fechaSalida = new Date();
-	// Date fechaArribe = new Date();
-	// UUID keyTripulacion = UUID.randomUUID();
-	// String observacion = "En horario";
-	// String estado = "1";
-	// List<Asiento> asientos = getListAsiento();
-	// List<Tripulante> tripulantes = getListdaTripulantes();
-
-	// vueloDto.setKey(key);
-	// vueloDto.setNroVuelo(nroVuelo);
-	// vueloDto.setKeyAeronave(keyAeronave);
-	// // vueloDto.setAsientos(asientos);
-	// vueloDto.setOrigen(origen);
-	// vueloDto.setDestino(destino);
-	// vueloDto.setFechaSalida(fechaSalida);
-	// vueloDto.setFechaArribe(fechaArribe);
-	// vueloDto.setKeyTripulacion(keyTripulacion);
-	// // vueloDto.setTripulantes(tripulantes);
-	// vueloDto.setObservacion(observacion);
-	// vueloDto.setEstado(estado);
-
-	// // EliminarVueloCommand command = new EliminarVueloCommand(vueloDto.key);
-	// // try {
-	// // UUID resp = handler.handle(command);
-	// // } catch (HttpException e) {
-	// // Assert.assertEquals(400, e.getCode());
-	// // }
-	// }
-
-	// public List<Asiento> getListAsiento() {
-	// return new ArrayList<>();
-	// }
-
-	// public List<Tripulante> getListdaTripulantes() {
-	// return new ArrayList<>();
-	// }
 }

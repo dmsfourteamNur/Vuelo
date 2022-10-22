@@ -1,14 +1,10 @@
 package UseCases.Command.Vuelos.Editar;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
 import org.junit.Assert;
 import org.junit.Test;
 
-import Dto.AsientoDto;
-import Dto.TripulanteDto;
 import Dto.VueloDto;
 
 public class EditarVueloCommand_Test {
@@ -28,11 +24,4 @@ public class EditarVueloCommand_Test {
 		Assert.assertTrue(EditarVueloCommand.class.getConstructors()[0].canAccess(null));
 	}
 
-	public List<AsientoDto> getListAsiento() {
-		return new ArrayList<>();
-	}
-
-	public List<TripulanteDto> getListdaTripulantes() {
-		return new ArrayList<>();
-	}
 }

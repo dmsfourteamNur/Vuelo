@@ -6,7 +6,6 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import Dto.VueloDto;
-import UseCases.Command.Vuelos.Crear.CrearVueloCommand;
 
 public class CancelarVueloCommandTest {
 	@Test
@@ -21,6 +20,6 @@ public class CancelarVueloCommandTest {
 
 	@Test
 	public void constructorIsPrivate() {
-		Assert.assertTrue(CrearVueloCommand.class.getConstructors()[0].canAccess(null));
+		Assert.assertTrue(CancelarVueloCommand.class.getConstructors()[0].canAccess(null));
 	}
 }
