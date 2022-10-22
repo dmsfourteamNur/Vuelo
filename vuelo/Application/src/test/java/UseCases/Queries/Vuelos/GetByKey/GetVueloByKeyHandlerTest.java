@@ -64,10 +64,8 @@ public class GetVueloByKeyHandlerTest {
 		GetVueloByKeyHandler handler = new GetVueloByKeyHandler(iVueloRepository);
 		GetVueloByKeyQuery query = new GetVueloByKeyQuery(a.key);
 
-		Assert.assertThrows(
-				HttpException.class,
-				() -> {
-					handler.handle(query);
-				});
+		Assert.assertThrows(HttpException.class, () -> {
+			handler.handle(query);
+		});
 	}
 }
