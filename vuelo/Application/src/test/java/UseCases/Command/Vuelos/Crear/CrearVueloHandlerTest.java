@@ -76,6 +76,14 @@ public class CrearVueloHandlerTest {
 
 		when(iVueloRepository.findFechaSalida(fechaSalida)).thenReturn(vuelo);
 
+		Asiento asiento = new Asiento(UUID.randomUUID(), UUID.randomUUID(), 0, "comercial", 20.00, 1);
+		List<Asiento> listAsiento = new ArrayList<Asiento>();
+		listAsiento.add(asiento);
+
+		Tripulante tripulante = new Tripulante(UUID.randomUUID(), UUID.randomUUID(), "carlos", "marcos", "piloto", "1");
+		List<Tripulante> listTripulante = new ArrayList<Tripulante>();
+		listTripulante.add(tripulante);
+
 		CrearVueloHandler handler = new CrearVueloHandler(iVueloFactory, iVueloRepository, iAeronaveRepository,
 				iTripulacionRepository, iUnitOfWork);
 
@@ -90,12 +98,28 @@ public class CrearVueloHandlerTest {
 		vueloDto.keyTripulacion = UUID.randomUUID();
 		vueloDto.observacion = "En horario";
 		vueloDto.estado = "1";
-		vueloDto.asientos = new ArrayList<>();
-		vueloDto.tripulantes = new ArrayList<>();
+		// vuelo.setAsientos(asientos);
+		// vuelo.setTripulantes(tripuslantes);
+		// vueloDto.asientos = new ArrayList<>();
+		// vueloDto.tripulantes = new ArrayList<>();
 		CrearVueloCommand command = new CrearVueloCommand(vueloDto);
+
+		// command.data.key = UUID.randomUUID();
+		// command.data.nroVuelo = "2";
+		// command.data.keyAeronave = UUID.randomUUID();
+		// command.data.origen = "scz";
+		// command.data.destino = "cbba";
+		// command.data.fechaSalida = new Date();
+		// command.data.fechaArribe = new Date();
+		// command.data.keyTripulacion = UUID.randomUUID();
+		// command.data.observacion = "En horario";
+		// command.data.estado = "1";
+		// command.data.asientos = new ArrayList<>();
+		// command.data.tripulantes = new ArrayList<>();
+
 		// Vuelo resp = handler.handle(command);
 		// verify(iUnitOfWork).commit();
 		// Assert.assertNotNull(resp);
-	}
 
+	}
 }
