@@ -8,9 +8,9 @@ import org.junit.Test;
 import Dto.VueloDto;
 
 public class EliminarVueloCommand_Test {
+
 	@Test
 	public void dataValid() {
-
 		UUID key = UUID.randomUUID();
 		VueloDto vueloDto = new VueloDto();
 		vueloDto.setKey(key);

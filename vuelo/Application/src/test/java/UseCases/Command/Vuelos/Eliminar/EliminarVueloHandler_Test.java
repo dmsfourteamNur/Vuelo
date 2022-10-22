@@ -50,33 +50,42 @@ public class EliminarVueloHandler_Test {
 
 		when(iVueloRepository.FindByKey(any())).thenReturn(vuelo);
 		when(iVueloRepository.Delete(any())).thenReturn(vuelo);
-		EliminarVueloHandler handler = new EliminarVueloHandler(iVueloFactory, iVueloRepository, iUnitOfWork);
+
+		EliminarVueloHandler handler = new EliminarVueloHandler(iVueloFactory,
+				iVueloRepository, iUnitOfWork);
 
 		VueloDto vueloDto = new VueloDto();
 		Assert.assertEquals(null, vueloDto.getKey());
 		Assert.assertNull(null, vueloDto.getNroVuelo());
 		Assert.assertNull(null, vueloDto.getKeyAeronave());
-		// Assert.assertEquals(0, asientos.size());
 		Assert.assertNull(null, vueloDto.getOrigen());
 		Assert.assertNull(null, vueloDto.getDestino());
 		Assert.assertNull(null, vueloDto.getFechaSalida());
 		Assert.assertNull(null, vueloDto.getFechaArribe());
 		Assert.assertNull(null, vueloDto.getKeyTripulacion());
+		// Assert.assertEquals(0, asientos.size());
 		// Assert.assertEquals(0, tripulantes.size());
 		Assert.assertNull(null, vueloDto.getObservacion());
 		Assert.assertNull(null, vueloDto.getEstado());
 		vueloDto.key = key;
-		vueloDto.setNroVuelo(nroVuelo);
-		vueloDto.setKeyAeronave(keyAeronave);
-		// vueloDto.setAsientos(asientos);
-		vueloDto.setOrigen(origen);
-		vueloDto.setDestino(destino);
-		vueloDto.setFechaSalida(fechaSalida);
-		vueloDto.setFechaArribe(fechaArribe);
-		vueloDto.setKeyTripulacion(keyTripulacion);
-		// vueloDto.setTripulantes(tripulantes);
-		vueloDto.setObservacion(observacion);
-		vueloDto.setEstado(estado);
+		vueloDto.nroVuelo = nroVuelo;
+		vueloDto.keyAeronave = keyAeronave;
+		vueloDto.origen = origen;
+		vueloDto.destino = destino;
+		vueloDto.fechaSalida = fechaSalida;
+		vueloDto.fechaArribe = fechaArribe;
+		vueloDto.keyTripulacion = keyAeronave;
+		vueloDto.observacion = observacion;
+		vueloDto.estado = estado;
+		// vueloDto.setNroVuelo(nroVuelo);
+		// vueloDto.setKeyAeronave(keyAeronave);
+		// vueloDto.setOrigen(origen);
+		// vueloDto.setDestino(destino);
+		// vueloDto.setFechaSalida(fechaSalida);
+		// vueloDto.setFechaArribe(fechaArribe);
+		// vueloDto.setKeyTripulacion(keyTripulacion);
+		// vueloDto.setObservacion(observacion);
+		// vueloDto.setEstado(estado);
 
 		// EliminarVueloCommand command = new EliminarVueloCommand(vueloDto.key);
 		// UUID resp = handler.handle(command);
@@ -116,7 +125,7 @@ public class EliminarVueloHandler_Test {
 		vueloDto.setObservacion(observacion);
 		vueloDto.setEstado(estado);
 
-    EliminarVueloCommand command = new EliminarVueloCommand(vueloDto.key);
+    // EliminarVueloCommand command = new EliminarVueloCommand(vueloDto.key);
     // try {
     //   UUID resp = handler.handle(command);
     // } catch (HttpException e) {
