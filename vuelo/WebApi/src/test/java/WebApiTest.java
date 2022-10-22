@@ -1,20 +1,18 @@
+import static org.mockito.ArgumentMatchers.any;
+
 import org.junit.Assert;
 import org.junit.Test;
-import org.mockito.Mockito;
+
+import Fourteam.http.Rest;
 
 public class WebApiTest {
 
-	SharedKernel sharedKernel = Mockito.mock(SharedKernel.class);
-
 	@Test
 	public void constructor() {
-		Assert.assertNotNull(new Application());
+		Assert.assertNotNull(new WebApi());
+		Rest.addController(any());
+		Rest.start();
+		Rest.createSwagger();
 	}
 
-	// @Test
-	public void webTest() {
-		new WebApi();
-		WebApi.AddControllers();
-		// WebApi.openApi();
-	}
 }
