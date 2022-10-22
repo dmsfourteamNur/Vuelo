@@ -50,7 +50,7 @@ public class CrearVueloHandler
 		// ✅ verifico aeronave
 		Aeronave aeronave = iAeronaveRepository.FindByKey(request.data.keyAeronave);
 		if (aeronave == null)
-			throw new HttpException(HttpStatus.BAD_REQUEST, "no existe la eronave");
+			throw new HttpException(HttpStatus.BAD_REQUEST, "no existe la aeronave");
 		// ⚠️ verifico si la tripulacion, ya esta en vuelo
 		if (aeronave.estado.equals("2"))
 			throw new HttpException(HttpStatus.BAD_REQUEST, "aeronave esta en vuelo, usar otra");

@@ -46,7 +46,7 @@ public class EditarVueloHandler
 		// ✅ verifico aeronave
 		Aeronave aeronave = iAeronaveRepository.FindByKey(request.vueloDto.keyAeronave);
 		if (aeronave == null)
-			throw new HttpException(HttpStatus.BAD_REQUEST, "no existe la eronave");
+			throw new HttpException(HttpStatus.BAD_REQUEST, "no existe la aeronave");
 
 		// ✅ verifico tripulacion
 		Tripulacion tripulacion = iTripulacionRepository.FindByKey(request.vueloDto.keyTripulacion);
