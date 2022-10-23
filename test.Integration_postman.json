@@ -1,0 +1,163 @@
+{
+	"info": {
+		"_postman_id": "4a122220-7e2c-4c7a-ae49-53de2c959edd",
+		"name": "test",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "14260982"
+	},
+	"item": [
+		{
+			"name": "registro",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"\r",
+							"pm.test(\"Validacioón: Campos vacios\", function () {\r",
+							"  pm.response.to.have.status(200);\r",
+							"  let responseJSON = pm.response.json();\r",
+							"\r",
+							"  pm.test(\"campo nroVuelo\", function () {\r",
+							"    pm.expect(responseJSON).to.have.property(\"nroVuelo\");\r",
+							"  });\r",
+							"\r",
+							"  pm.test(\"campo keyAeronave\", function () {\r",
+							"    pm.expect(responseJSON).to.have.property(\"keyAeronave\");\r",
+							"  });\r",
+							"\r",
+							"  pm.test(\"campo origen\", function () {\r",
+							"    pm.expect(responseJSON).to.have.property(\"origen\");\r",
+							"  });\r",
+							"  pm.test(\"campo destino\", function () {\r",
+							"    pm.expect(responseJSON).to.have.property(\"destino\");\r",
+							"  });\r",
+							"\r",
+							"  pm.test(\"campo fechaSalida\", function () {\r",
+							"    pm.expect(responseJSON).to.have.property(\"fechaSalida\");\r",
+							"  });\r",
+							"\r",
+							"  pm.test(\"campo fechaArribe\", function () {\r",
+							"    pm.expect(responseJSON).to.have.property(\"fechaArribe\");\r",
+							"  });\r",
+							"\r",
+							"  pm.test(\"campo keyTripulacion\", function () {\r",
+							"    pm.expect(responseJSON).to.have.property(\"keyTripulacion\");\r",
+							"  });\r",
+							"  pm.test(\"campo observacion\", function () {\r",
+							"    pm.expect(responseJSON).to.have.property(\"observacion\");\r",
+							"  });\r",
+							"\r",
+							"  pm.test(\"campo estado\", function () {\r",
+							"    pm.expect(responseJSON).to.have.property(\"estado\");\r",
+							"  });\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Status code is 200\", () => {\r",
+							"  pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"El tiempo de respuesta es inferior a 400ms\", function () {\r",
+							"  pm.expect(pm.response.responseTime).to.be.below(400);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Verificación de codigo 400\", function () {\r",
+							"  pm.expect(pm.response.code).to.be.oneOf([400]);\r",
+							"  console.log(\"Mala solicitud\");\r",
+							"});\r",
+							"pm.test(\"Verificación de codigo 404\", function () {\r",
+							"  pm.expect(pm.response.code).to.be.oneOf([404]);\r",
+							"  console.log(\"No encontrado\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Verificación de codigo 502\", function () {\r",
+							"  pm.expect(pm.response.code).to.be.oneOf([502]);\r",
+							"  console.log(\"Puerta de enlace incorrecta\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"nroVuelo\": \"120\",\r\n    \"keyAeronave\": \"82eca019-caf7-4390-a4d0-9fb5f35c70ac\",\r\n    \"origen\": \"sc-vvi\",\r\n    \"destino\": \"lpz\",\r\n    \"fechaSalida\":\"2022-08-10T20:30:56.235-0400\",\r\n    \"fechaArribe\":\"2022-08-10T21:30:56.235-0400\",\r\n    \"keyTripulacion\": \"67307192-c737-428e-8305-ac767cb08010\",\r\n    \"observacion\": \"en horario\",\r\n    \"estado\": \"1\"\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://34.162.213.198:80/api/vuelo/registro",
+					"protocol": "http",
+					"host": [
+						"34",
+						"162",
+						"213",
+						"198"
+					],
+					"port": "80",
+					"path": [
+						"api",
+						"vuelo",
+						"registro"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getall",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		},
+		{
+			"name": "delete",
+			"request": {
+				"method": "DELETE",
+				"header": []
+			},
+			"response": []
+		},
+		{
+			"name": "getByKey",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		},
+		{
+			"name": "cancel",
+			"request": {
+				"method": "PUT",
+				"header": []
+			},
+			"response": []
+		},
+		{
+			"name": "edit",
+			"request": {
+				"method": "PUT",
+				"header": []
+			},
+			"response": []
+		}
+	]
+}
